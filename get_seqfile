@@ -1,0 +1,21 @@
+#!/usr/local/bin/python3
+import os
+import sys
+import subprocess
+
+#Enter the protein family and organism of inerest, show the input values, users could decide whether they need to enter again
+while True:
+	protein_family = input("Please enter the protein family:\n\t")
+	organism = input("Pleaase enter the organism of interest:\n\t")
+	print("Will be searching for %s in %s"%(str(protein_family),str(organism)))
+	a= input("Press 'y' to confirm, or any other key to enter again:\n\t")
+	if a == 'y':
+		print("Start searching... ")
+		break
+	else :
+		print("...That's fine, let's type them again.")
+
+#assign the esearch and efetch commands to get_prseq, which will work in bash
+get_prseq="esearch -db protein -query '{} AND {}[Organism]'| efetch -format fasta > protein_seq.fasta".format(protein_family,organism)
+subprocess.call(get_prseq,shell=True)
+print("Searching complete.\nResults are kept in 'protein_seq.fasta'")
